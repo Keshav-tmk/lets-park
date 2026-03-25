@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  :root {
+    --background: 220 20% 6%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 18% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 172 80% 50%;
+    --primary-foreground: 220 20% 6%;
+
+    --secondary: 220 16% 16%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 220 14% 14%;
+    --muted-foreground: 215 15% 50%;
+
+    --accent: 145 70% 50%;
+    --accent-foreground: 220 20% 6%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 16% 18%;
+    --input: 220 16% 18%;
+    --ring: 172 80% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --neon-cyan: 172 80% 50%;
+    --neon-green: 145 70% 50%;
+    --neon-amber: 38 92% 55%;
+    --neon-red: 0 72% 55%;
+    --neon-purple: 265 70% 60%;
+
+    --glass-bg: 220 18% 10% / 0.6;
+    --glass-border: 220 16% 24% / 0.5;
+    --glass-blur: 16px;
+
+    --gradient-primary: linear-gradient(135deg, hsl(172 80% 50%), hsl(145 70% 50%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 72% 55%), hsl(38 92% 55%));
+    --gradient-surface: linear-gradient(180deg, hsl(220 18% 12%), hsl(220 20% 8%));
+
+    --shadow-neon: 0 0 20px hsl(172 80% 50% / 0.15);
+    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.3);
+
+    --font-display: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --sidebar-background: 220 18% 8%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 172 80% 50%;
+    --sidebar-primary-foreground: 220 20% 6%;
+    --sidebar-accent: 220 14% 14%;
+    --sidebar-accent-foreground: 210 20% 85%;
+    --sidebar-border: 220 16% 18%;
+    --sidebar-ring: 172 80% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-card);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+  .glass-card-hover:hover {
+    border-color: hsl(var(--neon-cyan) / 0.4);
+    box-shadow: var(--shadow-neon);
+  }
+
+  .neon-text {
+    color: hsl(var(--neon-cyan));
+    text-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.3), 0 0 30px hsl(var(--neon-cyan) / 0.1);
+  }
+
+  .score-bar {
+    @apply h-1.5 rounded-full;
+    background: hsl(var(--muted));
+  }
+  .score-bar-fill {
+    @apply h-full rounded-full transition-all duration-700;
+  }
+
+  .risk-low { color: hsl(var(--neon-green)); }
+  .risk-medium { color: hsl(var(--neon-amber)); }
+  .risk-high { color: hsl(var(--neon-red)); }
+
+  .marker-safe {
+    background: hsl(var(--neon-green));
+    box-shadow: 0 0 10px hsl(var(--neon-green) / 0.5);
+  }
+  .marker-moderate {
+    background: hsl(var(--neon-amber));
+    box-shadow: 0 0 10px hsl(var(--neon-amber) / 0.5);
+  }
+  .marker-risky {
+    background: hsl(var(--neon-red));
+    box-shadow: 0 0 10px hsl(var(--neon-red) / 0.5);
+  }
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container {
+  background: hsl(220 20% 6%) !important;
+}
+.leaflet-control-zoom a {
+  background: hsl(220 18% 12%) !important;
+  color: hsl(210 20% 85%) !important;
+  border-color: hsl(220 16% 18%) !important;
+}
+.leaflet-control-attribution {
+  background: hsl(220 18% 10% / 0.8) !important;
+  color: hsl(215 15% 50%) !important;
+  font-size: 10px !important;
+}
+.leaflet-popup-content-wrapper {
+  background: hsl(220 18% 10%) !important;
+  color: hsl(210 20% 92%) !important;
+  border: 1px solid hsl(220 16% 18%) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px hsl(0 0% 0% / 0.4) !important;
+}
+.leaflet-popup-tip {
+  background: hsl(220 18% 10%) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: hsl(220 16% 24%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(172 80% 50% / 0.5);
+}
