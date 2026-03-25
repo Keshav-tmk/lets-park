@@ -127,5 +127,5 @@ export function rankParkingSpots(
   // Sort descending by finalScore
   scored.sort((a, b) => b.finalScore - a.finalScore);
 
-  return scored.slice(0, 5);
+  return scored.slice(0, 10);
 }

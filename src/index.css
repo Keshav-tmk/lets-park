@@ -156,7 +156,7 @@
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: hsl(220 16% 24%);
@@ -165,3 +165,41 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(172 80% 50% / 0.5);
 }
+
+/* Map marker animations */
+@keyframes pulse-marker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+@keyframes pulse-dest {
+  0%, 100% { box-shadow: 0 0 24px rgba(45,212,191,0.5); }
+  50% { box-shadow: 0 0 40px rgba(45,212,191,0.8), 0 0 60px rgba(45,212,191,0.3); }
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Recharts tooltip dark theme override */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Leaflet custom cursor for click-to-select */
+.leaflet-container {
+  cursor: crosshair !important;
+}
+.leaflet-marker-icon {
+  cursor: pointer !important;
+}
+
+/* Smooth panel transitions */
+.glass-card, .glass-card-hover {
+  will-change: transform, opacity;
+}
+
