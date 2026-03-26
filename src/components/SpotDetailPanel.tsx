@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import {
   X, ExternalLink, MapPin, Clock, DollarSign, Users, Shield,
-  AlertTriangle, TreePine, Footprints, Eye, Navigation
+  AlertTriangle, TreePine, Footprints, Eye, Navigation, Newspaper
 } from "lucide-react";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
@@ -46,6 +46,50 @@ export default function SpotDetailPanel({ spot, allSpots, onClose }: SpotDetailP
     { name: "Occupied", value: spot.occupied },
     { name: "Available", value: spot.capacity - spot.occupied },
   ];
+
+  // Dynamic Incidents generator
+  const getIncidents = () => {
+    const list = [];
+    if (spot.safetyScore < 0.6) {
+      list.push({
+        id: "inc-1", title: "Recent break-ins reported in this area", date: "2 Days Ago",
+        source: "Local Police", severity: "high",
+        imageUrl: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=400&q=80"
+      });
+    } else if (spot.safetyScore > 0.8) {
+      list.push({
+        id: "inc-2", title: "Increased police patrols ensure safety", date: "Today",
+        source: "City Update", severity: "low",
+        imageUrl: "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=400&q=80"
+      });
+    }
+
+    if (spot.legalityScore < 0.6) {
+      list.push({
+        id: "inc-3", title: `Towing drive active near ${spot.name}`, date: "Yesterday",
+        source: "Traffic Dept", severity: "high",
+        imageUrl: "https://images.unsplash.com/photo-1555523996-0f1c19b08f4c?auto=format&fit=crop&w=400&q=80"
+      });
+    }
+
+    if (occupancyPercent > 80) {
+      list.push({
+        id: "inc-4", title: "Heavy traffic blocking parking access", date: "Live",
+        source: "Community", severity: "medium",
+        imageUrl: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=400&q=80"
+      });
+    }
+
+    if (list.length === 0 || spot.shadeScore > 0.8) {
+      list.push({
+        id: "inc-5", title: "Area clear and functioning normally", date: "Live",
+        source: "System", severity: "low",
+        imageUrl: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=400&q=80"
+      });
+    }
+    return list;
+  };
+  const incidents = getIncidents();
 
   // Risk assessment data
   const riskMetrics = [
@@ -328,6 +372,42 @@ export default function SpotDetailPanel({ spot, allSpots, onClose }: SpotDetailP
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Local Incidents & News */}
+        <div className="space-y-2">
+          <h3 className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
+            <Newspaper className="w-3 h-3" /> Area Incidents & News
+          </h3>
+          <div className="flex gap-3 overflow-x-auto pb-2 snap-x hide-scrollbar">
+            {incidents.map((inc) => (
+              <div key={inc.id} className="w-[180px] shrink-0 glass-card rounded-lg overflow-hidden snap-start flex flex-col border border-border/30 relative">
+                {/* Severity Badge */}
+                <span className={`absolute top-2 right-2 px-1.5 py-0.5 rounded text-[8px] font-mono font-bold uppercase z-10 ${
+                  inc.severity === 'high' ? 'bg-red-500/90 text-white' : 
+                  inc.severity === 'medium' ? 'bg-amber-500/90 text-white' : 
+                  'bg-green-500/90 text-white'
+                }`}>
+                  {inc.severity}
+                </span>
+                
+                <div className="h-20 w-full relative">
+                  <img src={inc.imageUrl} alt={inc.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                </div>
+                
+                <div className="p-2.5 -mt-4 relative z-10 flex-1 flex flex-col justify-between">
+                  <h4 className="text-[11px] font-semibold text-foreground leading-tight line-clamp-2 mb-1.5">
+                    {inc.title}
+                  </h4>
+                  <div className="flex justify-between items-center text-[9px] font-mono text-muted-foreground uppercase mt-auto">
+                    <span>{inc.date}</span>
+                    <span className="text-primary font-bold">{inc.source}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
