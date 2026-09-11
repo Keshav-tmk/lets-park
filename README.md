@@ -427,4 +427,3 @@ npm run dev
 
 ---
 
-*Built with ❤️ for urban drivers navigating Bangalore's parking chaos.*
